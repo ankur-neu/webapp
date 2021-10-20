@@ -7,13 +7,13 @@ const models = path.join(__dirname, "../components/**/*.model.ts");
 const config = () => {
   sequelize.authenticate().then(async() => {
     
-    // console.error("database connected successfully!");
-    // try {
-    //     await sequelize.sync({force: true})
-    //     console.log("sycn doneß");
-    // } catch (error) {
-    //     console.log(error)
-    // }
+    console.error("database connected successfully!");
+    try {
+        await sequelize.sync({force: true})
+        console.log("sycn doneß");
+    } catch (error) {
+        console.log(error)
+    }
 
   }).catch( (e: any) => {
     console.error("database connection error!");
