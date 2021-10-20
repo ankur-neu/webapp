@@ -8,14 +8,14 @@ export const getUser  = async(data) => {
     try{
         let search = {
             where:{
-                username:data?.username
+                username:data.username
             }
         }
 
         let user = await User.findOne(search);
         // to check if user exist with provied username
         if(user){
-            let userData = await formatUser(user?.['dataValues']);
+            let userData = await formatUser(user['dataValues']);
             return respMsg(200,MESSAGES.SUCCESS,[userData]);
         }else{
             return respMsg(200,MESSAGES.USER_NOT_EXIST,[]);
@@ -32,7 +32,7 @@ export const saveUser = async(data) =>{
     try{
         let search = {
             where:{
-                username:data?.username
+                username:data.username
             }
         }
         let userExist = await User.findOne(search);
@@ -59,7 +59,7 @@ export const updateUser = async(data:IUser) =>{
 
         let search = {
             where:{
-                username:data?.username
+                username:data.username
             }
         }
         const user = await User.findOne(search);

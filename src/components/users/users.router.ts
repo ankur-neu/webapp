@@ -27,7 +27,7 @@ userRouter.get('/',auth, async ( req: Request, res: Response,next) => {
 userRouter.post('/', async (req: Request, res: Response) => {
   try {
 
-    if (!req.body?.first_name || !req.body?.last_name || !req.body?.password || !req.body?.username || !checkValidEmail(req.body.username)) {
+    if (!req.body.first_name || !req.body.last_name || !req.body.password || !req.body.username || !checkValidEmail(req.body.username)) {
 
       const msg = await respMsg(400, MESSAGES.BAD_REQUEST, []);
 
