@@ -32,7 +32,7 @@ const config = async() => {
 // })
 
 
-export const sequelize = new Sequelize(`${appConfigs.db.DB_NAME}`,``,``, {
+export const sequelize = new Sequelize(`${appConfigs.db.DB_NAME}`,{
   // host: `${appConfigs.db.DB_HOST}`,
   replication: {
     read: [
