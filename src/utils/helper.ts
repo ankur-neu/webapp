@@ -120,7 +120,7 @@ export const add_dynamo_data = async(data) => {
         };
         console.log("*******------********************");
         console.log(searchParams);
-        const result = await docClient.get(searchParams);
+        const result = await docClient.get(searchParams).promise();
         console.log("*******------********************");
         console.log(result);
         console.log("*******------********************");
@@ -147,16 +147,17 @@ export const add_dynamo_data = async(data) => {
 
         console.log("***************************");
         console.log(params);
-        
-        docClient.put(params, function(err, data) {
-            if (err) {
-              console.log("Error", err);
-              return false;
-            } else {
-              console.log("Success", data);
-              return true;
-            }
-          });
+        const putRes = docClient.put(params).promise();
+        console.log("Success", putRes);
+        // docClient.put(params, function(err, data) {
+        //     if (err) {
+        //       console.log("Error", err);
+        //       return false;
+        //     } else {
+        //       console.log("Success", data);
+        //       return true;
+        //     }
+        //   });
         
         // const result = await docClient.put(params);
         // console.log(result);
