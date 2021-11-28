@@ -120,18 +120,21 @@ export const add_dynamo_data = async(data) => {
         };
         console.log("*******------********************");
         console.log(searchParams);
-
-        docClient.get(searchParams, function(err, data) {
-            if (err) {
-                console.log("------------ get  data error -----------------")
-                console.log(err);
-                return false;
-            }else{
-                console.log("------------ get data -----------------")
-                console.log(data);
+        const result = await docClient.get(searchParams);
+        console.log("*******------********************");
+        console.log(result);
+        console.log("*******------********************");
+        // docClient.get(searchParams, function(err, data) {
+        //     if (err) {
+        //         console.log("------------ get  data error -----------------")
+        //         console.log(err);
+        //         return false;
+        //     }else{
+        //         console.log("------------ get data -----------------")
+        //         console.log(data);
                 
-            }
-        });
+        //     }
+        // });
 
 
         const params = {
