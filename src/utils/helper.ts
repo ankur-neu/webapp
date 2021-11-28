@@ -145,34 +145,34 @@ export const delete_s3 = async(key) => {
 //     }
 // }
 
-// export const get_dynamo_data = async(data) => {
-//     try{
+export const get_dynamo_data = async(data) => {
+    try{
         
-//         var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
-//         let table = "dynamo";
+        var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
+        let table = "dynamo";
 
-//         const params = {
-//             TableName:table,
-//             Key:{
-//                 "email": data.username
-//             }
-//         };
-//         console.log("*******------********************");
-//         console.log(params);
+        const params = {
+            TableName:table,
+            Key:{
+                "username": data.username
+            }
+        };
+        console.log("*******------********************");
+        console.log(params);
 
-//         const result = await docClient.get(params);
-//         if(result){
-//             console.log(result, " kdkdk");
+        const result = await docClient.get(params);
+        if(result){
+            console.log(result, " kdkdk");
             
-//         }else{
-//             return await respMsg(500,'Data not exits in dynamo db',[]);
-//         }
+        }else{
+            return await respMsg(500,'Data not exits in dynamo db',[]);
+        }
 
 
-//     }catch(e){
-//         return await respMsg(500,'',[e]);
-//     }
-// }
+    }catch(e){
+        return await respMsg(500,'',[e]);
+    }
+}
 
 export const send_sns = async(data) => {
     try{
