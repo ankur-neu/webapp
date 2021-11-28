@@ -5,6 +5,8 @@ import { RESPONSE } from './constants';
 import AWS from 'aws-sdk';
 import { appConfigs }  from '../config/config';
 
+AWS.config.update({region: 'us-east-1'});
+let sns = new AWS.SNS({apiVersion: '2010-03-31'})
 // to generate uuid for each user added
 export const generateId = ()=>{
     return uuidv4();
@@ -106,93 +108,96 @@ export const delete_s3 = async(key) => {
 }
 
 
-export const add_dynamo_data = async(data) => {
-    try{
+// export const add_dynamo_data = async(data) => {
+//     try{
         
-        var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
-        let table = "dynamo";
+//         var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
+//         let table = "dynamo";
 
-        const searchParams = {
-            TableName:table,
-            Key:{
-                "email": data.username
-            }
-        };
-        console.log("*******------********************");
-        console.log(searchParams);
-        const result = await docClient.get(searchParams).promise();
-        console.log("*******------********************");
-        console.log(result);
-        console.log("*******------********************");
-        // docClient.get(searchParams, function(err, data) {
-        //     if (err) {
-        //         console.log("------------ get  data error -----------------")
-        //         console.log(err);
-        //         return false;
-        //     }else{
-        //         console.log("------------ get data -----------------")
-        //         console.log(data);
-                
-        //     }
-        // });
+//         const searchParams = {
+//             TableName:table,
+//             Key:{
+//                 "email": data.username
+//             }
+//         };
+//         const result = await docClient.get(searchParams).promise();
+//         console.log("*******------********************");
+//         console.log(result);
+//         console.log("*******------********************");
 
+//         if(Object.keys(result).length != 0){
+//             return false;
+//         }
+//         const params = {
+//             TableName:table,
+//             Item:{
+//                 "email": data.username,
+//                 "token": data.token
+//             }
+//         };
 
-        const params = {
-            TableName:table,
-            Item:{
-                "email": data.username,
-                "token": data.token
-            }
-        };
+//         console.log("***************************");
+//         const putRes = await docClient.put(params).promise();
+//         console.log("Success", putRes);
+//         return true;
+//     }catch(e){
+//         return await respMsg(500,'',[e]);
+//     }
+// }
 
-        console.log("***************************");
-        console.log(params);
-        const putRes = docClient.put(params).promise();
-        console.log("Success", putRes);
-        // docClient.put(params, function(err, data) {
-        //     if (err) {
-        //       console.log("Error", err);
-        //       return false;
-        //     } else {
-        //       console.log("Success", data);
-        //       return true;
-        //     }
-        //   });
+// export const get_dynamo_data = async(data) => {
+//     try{
         
-        // const result = await docClient.put(params);
-        // console.log(result);
-        // if(result) return true;
-        // return false;
+//         var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
+//         let table = "dynamo";
 
-    }catch(e){
-        return await respMsg(500,'',[e]);
-    }
-}
+//         const params = {
+//             TableName:table,
+//             Key:{
+//                 "email": data.username
+//             }
+//         };
+//         console.log("*******------********************");
+//         console.log(params);
 
-export const get_dynamo_data = async(data) => {
-    try{
-        
-        var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
-        let table = "dynamo";
-
-        const params = {
-            TableName:table,
-            Key:{
-                "email": data.username
-            }
-        };
-        console.log("*******------********************");
-        console.log(params);
-
-        const result = await docClient.get(params);
-        if(result){
-            console.log(result, " kdkdk");
+//         const result = await docClient.get(params);
+//         if(result){
+//             console.log(result, " kdkdk");
             
-        }else{
-            return await respMsg(500,'Data not exits in dynamo db',[]);
+//         }else{
+//             return await respMsg(500,'Data not exits in dynamo db',[]);
+//         }
+
+
+//     }catch(e){
+//         return await respMsg(500,'',[e]);
+//     }
+// }
+
+export const send_sns = async(data) => {
+    try{
+
+        let link = 'http://'+process.env.DOMAIN_NAME+'/api/v1/verifyUserEmail?email=' + data.username + '&token=' + generateId();
+        let obj = {
+            link:link,
+            username:data.username
         }
 
-
+        let topicObj = {
+            Name:'user-add-topic'
+        }
+        const snsResp = await sns.createTopic(topicObj).promise();
+        console.log("_________________sns _____________________");
+        console.log(snsResp);
+        
+        
+        var params = {
+            Message: JSON.stringify(obj),
+            TopicArn: snsResp.TopicArn
+        };
+        console.log("_________________sns _____________________");
+        console.log(params);
+        await sns.publish(params).promise();
     }catch(e){
         return await respMsg(500,'',[e]);
     }

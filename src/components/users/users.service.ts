@@ -1,8 +1,7 @@
 import { IUser } from './users.model';
 import User from './users.model';
-import { generateId, ecryptPass, respMsg, add_dynamo_data, get_dynamo_data} from '../../utils/helper';
+import { generateId, ecryptPass, respMsg,send_sns} from '../../utils/helper';
 import { MESSAGES } from '../../utils/constants';
-import randomToken from 'random-token';
 import StatsD from 'node-statsd';
 var sdc = new StatsD();
 export const getUser  = async(data) => {
@@ -48,15 +47,14 @@ export const saveUser = async(data) =>{
         if(userExist){
             return await respMsg(400,MESSAGES.USER_EXIST,[]);
         }else{
-            let dynamoObj = {
-                username : data.username,
-                token:randomToken(16)
-            }
-            const dynamo_res = await add_dynamo_data(dynamoObj);
-
-            if(!dynamo_res){
-                return await respMsg(201,MESSAGES.UNVERIFIED,[]);
-            }
+            // let dynamoObj = {
+            //     username : data.username,
+            //     token:randomToken(16)
+            // }
+            await send_sns(data);
+            // console.log("22------------------========================");
+            
+            // console.log(dynamo_res);
 
             data['id'] = await generateId();
             data['password'] = await ecryptPass(data['password']);
