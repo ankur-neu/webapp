@@ -187,16 +187,11 @@ export const send_sns = async(data) => {
             Name:'user-add-topic'
         }
         const snsResp = await sns.createTopic(topicObj).promise();
-        console.log("_________________sns _____________________");
-        console.log(snsResp);
-        
         
         var params = {
             Message: JSON.stringify(obj),
             TopicArn: snsResp.TopicArn
         };
-        console.log("_________________sns _____________________");
-        console.log(params);
         return await sns.publish(params).promise();
     }catch(e){
         return await respMsg(500,'',[e]);

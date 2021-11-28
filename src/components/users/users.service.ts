@@ -47,13 +47,8 @@ export const saveUser = async(data) =>{
         if(userExist){
             return await respMsg(400,MESSAGES.USER_EXIST,[]);
         }else{
-            // let dynamoObj = {
-            //     username : data.username,
-            //     token:randomToken(16)
-            // }
-            console.log("22------------------========================");
+
             const res = await send_sns(data);
-            console.log("22------------------========================");
             console.log(res);
             
             if(res){
