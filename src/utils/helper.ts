@@ -112,11 +112,33 @@ export const add_dynamo_data = async(data) => {
         var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
         let table = "dynamo";
 
+        const searchParams = {
+            TableName:table,
+            Key:{
+                "email": data.username
+            }
+        };
+        console.log("*******------********************");
+        console.log(searchParams);
+
+        docClient.get(searchParams, function(err, data) {
+            if (err) {
+                console.log("------------ get  data error -----------------")
+                console.log(err);
+                return false;
+            }else{
+                console.log("------------ get data -----------------")
+                console.log(data);
+                
+            }
+        });
+
+
         const params = {
             TableName:table,
             Item:{
-                "email": data.username
-                // "token": data.token
+                "email": data.username,
+                "token": data.token
             }
         };
 
@@ -126,8 +148,10 @@ export const add_dynamo_data = async(data) => {
         docClient.put(params, function(err, data) {
             if (err) {
               console.log("Error", err);
+              return false;
             } else {
               console.log("Success", data);
+              return true;
             }
           });
         
