@@ -36,9 +36,9 @@ export const sequelize = new Sequelize(`${appConfigs.db.DB_NAME}`,`${appConfigs.
   // host: `${appConfigs.db.DB_HOST}`,
   replication: {
     read: [
-      { host: `${appConfigs.db.DB_HOST_READ}`}
+      { host: `${appConfigs.db.DB_HOST_READ}`, username: `${appConfigs.db.DB_USER}`, password: `${appConfigs.db.DB_PASS}`}
     ],
-    write: { host: `${appConfigs.db.DB_HOST}`}
+    write: { host: `${appConfigs.db.DB_HOST}`, username: `${appConfigs.db.DB_USER}`, password: `${appConfigs.db.DB_PASS}`}
   },
   pool: { // If you want to override the options used for the read/write pool you can do so here
     max: 20,
