@@ -51,22 +51,27 @@ export const saveUser = async(data) =>{
             //     username : data.username,
             //     token:randomToken(16)
             // }
-            await send_sns(data);
-            // console.log("22------------------========================");
+            console.log("22------------------========================");
+            const res = await send_sns(data);
+            console.log("22------------------========================");
+            console.log(res);
             
+            if(res){
+                data['id'] = await generateId();
+                data['password'] = await ecryptPass(data['password']);
+                const user = new User(data);
+                sdc.increment('db_user_add');
+                let startTime = new Date().valueOf();
+                const result =  await user.save();
+                let endTime = new Date().valueOf();
+                sdc.timing('db_user_add_timer', endTime-startTime);
+                let userData = await formatUser(result['dataValues']);
+            
+                return await respMsg(201,MESSAGES.USER_ADD_SUCCESS,[userData]);
+            }
             // console.log(dynamo_res);
 
-            data['id'] = await generateId();
-            data['password'] = await ecryptPass(data['password']);
-            const user = new User(data);
-            sdc.increment('db_user_add');
-            let startTime = new Date().valueOf();
-            const result =  await user.save();
-            let endTime = new Date().valueOf();
-            sdc.timing('db_user_add_timer', endTime-startTime);
-            let userData = await formatUser(result['dataValues']);
-        
-            return await respMsg(201,MESSAGES.USER_ADD_SUCCESS,[userData]);
+            
         }
     }catch(e){
         return await respMsg(500,'',[e]);

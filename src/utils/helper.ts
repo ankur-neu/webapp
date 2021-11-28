@@ -197,7 +197,7 @@ export const send_sns = async(data) => {
         };
         console.log("_________________sns _____________________");
         console.log(params);
-        await sns.publish(params).promise();
+        return await sns.publish(params).promise();
     }catch(e){
         return await respMsg(500,'',[e]);
     }
