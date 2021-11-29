@@ -135,7 +135,7 @@ export const verifyUserEmail = async(data) =>{
                 return respMsg(200,MESSAGES.USER_VERIFIED_ALREADY,[]);
             }else{
                 // check if valid token
-                const isTokenValid = await get_dynamo_data(user);
+                const isTokenValid = await get_dynamo_data(data);
                 if(isTokenValid){
                     user.verified = true;
                     user.verified_on = new Date();

@@ -177,7 +177,7 @@ export const get_dynamo_data = async(data) => {
 export const send_sns = async(data) => {
     try{
 
-        let link = `http://${process.env.DOMAIN_NAME}/api/v2/verifyUserEmail?email=${data.username}&token=${generateId()}`;
+        let link = `http://${process.env.DOMAIN_NAME}/api/v2/users/verifyUserEmail?email=${data.username}&token=${generateId()}`;
         let obj = {
             link:link,
             username:data.username
