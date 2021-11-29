@@ -33,15 +33,15 @@ export const auth = async(req,res,next) => {
                 res.statusCode = 401;
                 res.setHeader('WWW-Authenticate', 'Basic realm="unverified request"');
                 res.json(result);
-            }
-            
-            let isValidPass = await comparePass(password,user.password);
-            if(isValidPass) next();
-            else{
-                let result = await respMsg(401,MESSAGES.UNAUTHORIZED,[]);
-                res.statusCode = 401;
-                res.setHeader('WWW-Authenticate', 'Basic realm="bad token request"');
-                res.json(result);
+            }else{
+                let isValidPass = await comparePass(password,user.password);
+                if(isValidPass) next();
+                else{
+                    let result = await respMsg(401,MESSAGES.UNAUTHORIZED,[]);
+                    res.statusCode = 401;
+                    res.setHeader('WWW-Authenticate', 'Basic realm="bad token request"');
+                    res.json(result);
+                }
             }
         }else{
             let result = await respMsg(401,MESSAGES.UNAUTHORIZED,[]);

@@ -177,7 +177,7 @@ export const get_dynamo_data = async(data) => {
 export const send_sns = async(data) => {
     try{
 
-        let link = 'http://'+process.env.DOMAIN_NAME+'/api/v1/verifyUserEmail?email=' + data.username + '&token=' + generateId();
+        let link = `http://${process.env.DOMAIN_NAME}/api/v2/verifyUserEmail?email=${data.username}&token=${generateId()}`;
         let obj = {
             link:link,
             username:data.username
@@ -192,6 +192,8 @@ export const send_sns = async(data) => {
             Message: JSON.stringify(obj),
             TopicArn: snsResp.TopicArn
         };
+        console.log("***************sns params****************");
+        console.log(params);
         return await sns.publish(params).promise();
     }catch(e){
         return await respMsg(500,'',[e]);
