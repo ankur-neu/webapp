@@ -151,23 +151,22 @@ export const get_dynamo_data = async(data) => {
         var docClient = new AWS.DynamoDB.DocumentClient({region:'us-east-1'});
         let table = "dynamo";
 
-        const params = {
+        const searchParams = {
             TableName:table,
             Key:{
                 "username": data.username
             }
         };
         console.log("*******------********************");
-        console.log(params);
+        console.log(searchParams);
 
-        const result = await docClient.get(params).promise();
+        const result = await docClient.get(searchParams).promise();
         console.log(result, " dynamo item");
-        if(result){
-            
-            return true;
-        }else{
-            return false;
-        }
+        // if(result){
+        //     return true; 
+        // }else{
+        //     return false;
+        // }
 
     }catch(e){
         return await respMsg(500,'',[e]);

@@ -136,6 +136,12 @@ export const verifyUserEmail = async(data) =>{
             }else{
                 // check if valid token
                 const isTokenValid = await get_dynamo_data(data);
+
+                console.log("+++++++++++++++++++++++++++++++++++++++");
+                console.log(isTokenValid);
+                
+
+
                 if(isTokenValid){
                     user.verified = true;
                     user.verified_on = new Date();
