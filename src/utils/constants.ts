@@ -29,6 +29,7 @@ export const MESSAGES = {
     USER_UPDATED_SUCCESS: "User updated successfully",
     USER_VERIFIED_SUCCESS: "User verified successfully",
     USER_VERIFIED_ALREADY: "User already verified successfully",
+    INVALID_TOKEN: "User token is invalid or session is expired",
     SUCCESS: "Success",
     BAD_REQUEST: "Bad Request",
     UNAUTHORIZED:"Unauthorized",

@@ -1,6 +1,6 @@
 import { IUser } from './users.model';
 import User from './users.model';
-import { generateId, ecryptPass, respMsg,send_sns} from '../../utils/helper';
+import { generateId, ecryptPass, respMsg,send_sns,get_dynamo_data} from '../../utils/helper';
 import { MESSAGES } from '../../utils/constants';
 import StatsD from 'node-statsd';
 var sdc = new StatsD();
@@ -133,14 +133,19 @@ export const verifyUserEmail = async(data) =>{
         if(user){
             if(user.verified){
                 return respMsg(200,MESSAGES.USER_VERIFIED_ALREADY,[]);
+            }else{
+                // check if valid token
+                const isTokenValid = get_dynamo_data(user);
+                if(isTokenValid){
+                    user.verified = true;
+                    user.verified_on = new Date();
+                    const result =  await user.save();
+                    const userData = await formatUser(result['dataValues']);
+                    return respMsg(200,MESSAGES.USER_VERIFIED_SUCCESS,[userData]);
+                }else{
+                    return respMsg(200,MESSAGES.INVALID_TOKEN,[]);
+                }
             }
-
-            user.verified = true;
-            user.verified_on = new Date();
-            const result =  await user.save();
-            const userData = await formatUser(result['dataValues']);
-
-            return respMsg(200,MESSAGES.USER_VERIFIED_SUCCESS,[userData]);
         }else{
             return respMsg(401,MESSAGES.USER_NOT_EXIST,[]);
         }

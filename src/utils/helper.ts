@@ -161,13 +161,13 @@ export const get_dynamo_data = async(data) => {
         console.log(params);
 
         const result = await docClient.get(params);
+        console.log(result, " dynamo item");
         if(result){
-            console.log(result, " kdkdk");
             
+            return true;
         }else{
-            return await respMsg(500,'Data not exits in dynamo db',[]);
+            return false;
         }
-
 
     }catch(e){
         return await respMsg(500,'',[e]);
