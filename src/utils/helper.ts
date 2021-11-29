@@ -160,7 +160,7 @@ export const get_dynamo_data = async(data) => {
         console.log("*******------********************");
         console.log(params);
 
-        const result = await docClient.get(params);
+        const result = await docClient.get(params).promise();
         console.log(result, " dynamo item");
         if(result){
             
