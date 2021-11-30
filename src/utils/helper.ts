@@ -162,8 +162,11 @@ export const get_dynamo_data = async(data) => {
 
         const result = await docClient.get(searchParams).promise();
         console.log(result, " dynamo item");
-        if(result){
-            return true; 
+        if(result && result.Item){
+            if(result.Item.token == data.token){
+                return true;
+            }
+            return false; 
         }else{
             return false;
         }
@@ -197,4 +200,11 @@ export const send_sns = async(data) => {
     }catch(e){
         return await respMsg(500,'',[e]);
     }
+}
+
+interface IDynamo{
+    ttl:String,
+    username:String,
+    token:String,
+    type:String
 }
