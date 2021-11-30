@@ -162,11 +162,11 @@ export const get_dynamo_data = async(data) => {
 
         const result = await docClient.get(searchParams).promise();
         console.log(result, " dynamo item");
-        // if(result){
-        //     return true; 
-        // }else{
-        //     return false;
-        // }
+        if(result){
+            return true; 
+        }else{
+            return false;
+        }
 
     }catch(e){
         return await respMsg(500,'',[e]);
