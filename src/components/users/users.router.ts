@@ -118,7 +118,7 @@ userRouter.get('/verifyUserEmail', async ( req: Request, res: Response,next) => 
       };
       
       const result = await UserService.verifyUserEmail(obj);
-      res.status(200).send(result);
+      res.status(200).send(result.message);
   }
   catch (e) {
     logger.error('Error get user details  ' + req.ip);
