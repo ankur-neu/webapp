@@ -42,7 +42,7 @@ imageRouter.get('/',auth, async ( req: Request, res: Response,next) => {
   }
 });
 
-imageRouter.post('/', async (req: Request, res: Response) => {
+imageRouter.post('/',auth, async (req: Request, res: Response) => {
   try {
     sdc.increment('image_add');
     let startTime = new Date().valueOf();
