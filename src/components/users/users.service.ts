@@ -137,19 +137,22 @@ export const verifyUserEmail = async(data) =>{
                 // check if valid token
                 const isTokenValid = await get_dynamo_data(data);
 
-                console.log("+++++++++++++++++++++++++++++++++++++++");
+                console.log("+++++++++++++++++isTokenValid++++++++++++++++++++++");
                 console.log(isTokenValid);
                 
-
-
-                if(isTokenValid){
+                if(isTokenValid == 0){
                     user.verified = true;
                     user.verified_on = new Date();
                     const result =  await user.save();
                     const userData = await formatUser(result['dataValues']);
                     return respMsg(200,MESSAGES.USER_VERIFIED_SUCCESS,[userData]);
                 }else{
-                    return respMsg(200,MESSAGES.INVALID_TOKEN,[]);
+                    if(isTokenValid == 1){
+                        return respMsg(200,MESSAGES.INVALID_TOKEN,[]);
+                    }else if(isTokenValid == 2){
+                        return respMsg(200,MESSAGES.TOKEN_EXPIRED,[]);
+                    }
+                    
                 }
             }
         }else{

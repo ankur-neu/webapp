@@ -163,10 +163,13 @@ export const get_dynamo_data = async(data) => {
         const result = await docClient.get(searchParams).promise();
         console.log(result, " dynamo item");
         if(result && result.Item){
-            if(result.Item.token == data.token){
-                return true;
+            let currentTime = new Date().getTime();
+            if(result.Item.token != data.token){
+                return 1;
+            }else if(result.Item.ttl < currentTime){
+                return 2;
             }
-            return false; 
+            return 0; 
         }else{
             return false;
         }
