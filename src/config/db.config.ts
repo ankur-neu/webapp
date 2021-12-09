@@ -46,6 +46,9 @@ export const sequelize = new Sequelize(`${appConfigs.db.DB_NAME}`,`${appConfigs.
   },
   port: 5432,
   dialect: 'postgres',
+  dialectOptions: {
+    ssl: true
+  },
   models: [User,Image]
 })
 sequelize.addModels([User,Image])
