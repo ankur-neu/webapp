@@ -3,10 +3,14 @@ import { Sequelize } from 'sequelize-typescript'
 import { appConfigs } from './config';
 import User from '../components/users/users.model';
 import Image from '../components/image/image.model';
+import fs from 'fs';
 
 // const models = path.join(__dirname, "../components/**/*.model.ts");
+const ca_file = fs.readFileSync('../../rds-combined-ca-bundle.pem');
 
 const config = async() => {
+  console.log("cadlkcmad" + ca_file);
+  
   await sequelize.authenticate();
   console.error("database connected successfully!");
   await sequelize.sync();
@@ -49,7 +53,8 @@ export const sequelize = new Sequelize(`${appConfigs.db.DB_NAME}`,`${appConfigs.
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false
+      rejectUnauthorized: true,
+      ca:ca_file
     }
   },
   models: [User,Image]
