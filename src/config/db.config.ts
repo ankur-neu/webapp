@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize-typescript'
 import { appConfigs } from './config';
 import User from '../components/users/users.model';
 import Image from '../components/image/image.model';
-import fs from 'fs';
+import * as fs from 'fs';
 
 // const models = path.join(__dirname, "../components/**/*.model.ts");
 const ca_file = fs.readFileSync('./rds-combined-ca-bundle.pem');
