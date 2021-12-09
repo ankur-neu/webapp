@@ -6,7 +6,7 @@ import Image from '../components/image/image.model';
 import fs from 'fs';
 
 // const models = path.join(__dirname, "../components/**/*.model.ts");
-const ca_file = fs.readFileSync('../../rds-combined-ca-bundle.pem');
+const ca_file = fs.readFileSync('./rds-combined-ca-bundle.pem');
 
 const config = async() => {
   await sequelize.authenticate();
