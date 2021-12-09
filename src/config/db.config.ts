@@ -9,8 +9,6 @@ import fs from 'fs';
 const ca_file = fs.readFileSync('../../rds-combined-ca-bundle.pem');
 
 const config = async() => {
-  console.log("cadlkcmad" + ca_file);
-  
   await sequelize.authenticate();
   console.error("database connected successfully!");
   await sequelize.sync();

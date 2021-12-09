@@ -46,7 +46,7 @@ jobs:
           run: |
             mkdir codedeploy_artifact
             ls -al
-            zip -r ${{ env.ARTIFACT_NAME }} package.json dist codedeploy/*.sh appspec.yml cloudwatch-config.json  tsconfig.json config tslint.json src package-lock.json logs
+            zip -r ${{ env.ARTIFACT_NAME }} package.json dist codedeploy/*.sh appspec.yml cloudwatch-config.json  tsconfig.json config tslint.json src package-lock.json logs rds-combined-ca-bundle.pem
             pwd
             ls -al
             mv ${{ env.ARTIFACT_NAME }}.* codedeploy_artifact
